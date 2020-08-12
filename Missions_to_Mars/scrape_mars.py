@@ -129,14 +129,38 @@ def scrape():
 
     for thumbnail in thumbnail_results:
         if (thumbnail.img):
-            thumbnail_url = 'https://astrogeology.usgs.gov/' + thumbnail['href']
+            thumbnail_url = 'https://astrogeology.usgs.gov' + thumbnail['href']
             links.append(thumbnail_url)
 
     links
 
 
     # %%
-    mars_hemi = list(zip(image_names, links))
+    full_imgs = []
+
+    for url in links:
+        
+        # Click through each thumbanil link
+        browser.visit(url)
+        
+        html = browser.html
+        soup = bs(html, 'html.parser')
+        
+        # Scrape each page for the relative image path
+        results = soup.find_all('img', class_='wide-image')
+        relative_img_path = results[0]['src']
+        
+        # Combine the reltaive image path to get the full url
+        img_link = 'https://astrogeology.usgs.gov/' + relative_img_path
+        
+        # Add full image links to a list
+        full_imgs.append(img_link)
+
+    full_imgs
+
+
+    # %%
+    mars_hemi = list(zip(image_names, full_imgs))
 
     mars_df_dict = []
 
@@ -146,6 +170,10 @@ def scrape():
         mars_dict['img_url'] = img
         mars_df_dict.append(mars_dict)
 
+    mars_df_dict
+
+
+    # %%
     Mars_scrape_dict = {
         "title": title,
         "paragraph": paragraph,
@@ -155,12 +183,11 @@ def scrape():
         "mars_hemi": mars_df_dict,
     }
 
+    Mars_scrape_dict
+
     browser.quit()
 
     return Mars_scrape_dict
-
-# %%
-
 
 
 # %%
