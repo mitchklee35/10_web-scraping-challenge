@@ -1,4 +1,4 @@
-# Nasa Website Data Scrape
+# Nasa Website Data Scrape from Mars
 
 Data Analysis and Visualization Course
 ### Installation
@@ -9,7 +9,7 @@ pip install pandas
 ```
 
 ### Function
-Go to Nasa website and twitter and create a website thats hosts updated information from HTML scraping. 
+Create a website from current updated Mars data, scraping from Nasa website and Nasa Twitter. 
 
 ### Organization
 ```app.py``` is used to host the ```index.html```. This communicates with the jupyter notebook file ```mission_to_mars.ipynb```. Images are available in the ```images``` folder. 
